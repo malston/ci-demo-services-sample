@@ -1,5 +1,6 @@
 package com.pivotalservices.sample.web
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.pivotalservices.sample.domain.User
 import com.pivotalservices.sample.repository.UserRepository
 import org.junit.Before
@@ -18,7 +19,9 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @RunWith(SpringRunner::class)
@@ -31,13 +34,33 @@ class UserControllerSliceTests {
     @Autowired
     lateinit var userRepository: UserRepository
 
-    @Test
-    fun testGetUsers() {
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
 
+    @Test
+    fun testUsers() {
         this.mockMvc.perform(get("/users").param("page", "0").param("size", "1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk)
+                .andExpect(jsonPath("$._embedded.userList[0].fullName").value("one"))
+
+        this.mockMvc
+                .perform(get("/users/1"))
+                .andDo(print())
+                .andExpect(status().isOk)
+
+        this.mockMvc.perform(get("/users/3"))
+                .andDo(print())
+                .andExpect(status().isNotFound)
+
+        this.mockMvc
+                .perform(post("/users")
+                        .content(objectMapper.writeValueAsString(User(fullName = "new", password = "one", email = "new@one.com")))
+                        .header("Content-Type", MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isCreated)
+
     }
 
     @Before
@@ -51,12 +74,20 @@ class UserControllerSliceTests {
                                     User(id = 2, fullName = "two", password = "two", email = "two@two.com"))
                             , pageable, 10)
                 })
+
+        given(userRepository.findOne(1L))
+                .willReturn(User(id = 1, fullName = "one", password = "one", email = "one@one.com"))
+
+        given(userRepository.save(Matchers.any(User::class.java)))
+                .willAnswer({ invocation ->
+                    val user = invocation.getArgumentAt(0, User::class.java)
+                    user
+                })
     }
 
     @TestConfiguration
     class SpringConfig {
 
-        
         @Bean
         fun userResourceAssembler(): UserResourceAssembler {
             return UserResourceAssembler()

@@ -7,7 +7,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @NamedQueries(NamedQuery(name = "post.list", query = "select p from Post p"))
-class Post(
+data class Post(
         @field:NotNull
         @field:Size(min = 1)
         var title: String?,

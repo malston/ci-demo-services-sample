@@ -7,7 +7,7 @@ import org.springframework.hateoas.mvc.ResourceAssemblerSupport
 import org.springframework.stereotype.Component
 
 @Component
-class UserResourceAssembler: ResourceAssemblerSupport<User?, Resource<User>> {
+class UserResourceAssembler: ResourceAssemblerSupport<User, Resource<User>> {
     
     override fun toResource(entity: User?): Resource<User> {
         val selflink = linkTo(UserController::class.java).slash(entity?.id).withSelfRel();
