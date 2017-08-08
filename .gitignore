@@ -26,3 +26,6 @@ nbdist/
 .DS_Store
 .gradle/
 out/
+concourse/credentials.yml
+concourse/ghub
+concourse/ghub.pub
