@@ -57,23 +57,6 @@ jobs:
       tag: out/tag
       only_tag: true
 
-- name: build-api-compatibility-check
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: repo
-    - get: m2
-    - get: version
-      resource: version
-      passed:
-      - build-and-upload
-      trigger: true
-  - task: build-api-compatibility-check
-    file: repo/concourse/tasks/build-api-compatibility-check.yml
-    params:
-      <<: *common-params
-
 - name: test-deploy
   serial: true
   public: false
@@ -84,7 +67,7 @@ jobs:
     - get: version
       resource: version
       passed:
-      - build-api-compatibility-check
+      - build-and-upload
       trigger: true
   - task: test-deploy
     file: repo/concourse/tasks/test-deploy.yml

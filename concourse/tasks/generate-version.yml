@@ -8,13 +8,13 @@ image_resource:
 
 inputs:
   - name: version
-  - name: tools
+  - name: repo
 
 outputs:
   - name: updated-version
 
 run:
-  path: tools/concourse/tasks/generate-version.sh
+  path: repo/concourse/tasks/generate-version.sh
 
 params:
   GIT_EMAIL:
