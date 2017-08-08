@@ -2,6 +2,7 @@ package com.pivotalservices.sample.web
 
 import com.pivotalservices.sample.domain.Post
 import com.pivotalservices.sample.repository.PostRepository
+import com.pivotalservices.sample.repository.UserRepository
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,6 +29,9 @@ class PostControllerTests {
     
     @MockBean
     lateinit var postRepository: PostRepository
+
+    @MockBean
+    lateinit var userRepository: UserRepository
 
     @Autowired
     lateinit var mockMvc: MockMvc

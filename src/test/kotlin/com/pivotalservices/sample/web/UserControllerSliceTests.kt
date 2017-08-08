@@ -10,6 +10,7 @@ import org.mockito.BDDMockito.given
 import org.mockito.BDDMockito.mock
 import org.mockito.Matchers
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean

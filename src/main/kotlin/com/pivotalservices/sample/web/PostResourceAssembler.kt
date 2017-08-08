@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class PostResourceAssembler: ResourceAssembler<Post, Resource<Post>> {
-    override fun toResource(entity: Post?): Resource<Post> {
-        val selflink = ControllerLinkBuilder.linkTo(PostController::class.java).slash(entity?.id).withSelfRel();
-        return Resource(entity!!, selflink)
+    override fun toResource(entity: Post): Resource<Post> {
+        val selflink = ControllerLinkBuilder.linkTo(PostController::class.java).slash(entity.id).withSelfRel();
+        return Resource(entity, selflink)
     }
 }

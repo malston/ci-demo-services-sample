@@ -9,14 +9,15 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.junit4.SpringRunner
 
 
 @RunWith(SpringRunner::class)
-@SpringBootTest
-class ApplicationTests {
+@DataJpaTest
+class RepositoryTests {
 
     @Autowired
     lateinit var userRepo: UserRepository
@@ -39,13 +40,13 @@ class ApplicationTests {
         
         postRepo.save(post)
         
-        val posts = postRepo.findByUser(user1)
+        val posts = postRepo.findByUser(user1, PageRequest(0, 10))
         
-        assertThat(posts.size).isEqualTo(1)
+        assertThat(posts.totalElements).isEqualTo(1)
         
-        assertThat(posts.get(0).content).isEqualTo("Some content")
+        assertThat(posts.content.get(0).content).isEqualTo("Some content")
         
-        assertThat(posts.get(0).user?.fullName).isEqualTo("test1")
+        assertThat(posts.content.get(0).user?.fullName).isEqualTo("test1")
     }
 
     @Configuration
