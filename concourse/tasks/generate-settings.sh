@@ -25,7 +25,7 @@ cat > ${HOME}/.m2/settings.xml <<EOF
 EOF
 echo "Settings xml written"
 
-export GRADLE_USER_HOME="${ROOT_IN_M2_RESOURCE}/.gradle"
+export GRADLE_USER_HOME="${ROOT_FOLDER}/.gradle"
 
 echo "Writing gradle.properties to [${GRADLE_USER_HOME}/gradle.properties]"
 
