@@ -1,11 +1,10 @@
 #!/bin/bash
 
 mkdir -p ${HOME}/.m2
-mkdir -p ${HOME}/.gradle
 
-ROOT_IN_M2_RESOURCE="${ROOT_FOLDER}/${M2_REPO}/root"
-export M2_HOME="${ROOT_IN_M2_RESOURCE}/.m2"
-export NEW_LOCAL_REPO="${M2_HOME}/repository/"
+export M2_LOCAL_REPO="${ROOT_FOLDER}/.m2"
+
+mkdir -p ${M2_LOCAL_REPO}
 
 cat > ${HOME}/.m2/settings.xml <<EOF
 
@@ -13,6 +12,7 @@ cat > ${HOME}/.m2/settings.xml <<EOF
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                           https://maven.apache.org/xsd/settings-1.0.0.xsd">
+      <localRepository>${M2_LOCAL_REPO}</localRepository>
       <servers>
         <server>
           <id>${M2_SETTINGS_REPO_ID}</id>
@@ -37,7 +37,3 @@ repoPassword=${M2_SETTINGS_REPO_PASSWORD}
 
 EOF
 echo "gradle.properties written"
-
-echo "Moving [${NEW_LOCAL_REPO}] [${HOME}] folder"
-mv ${NEW_LOCAL_REPO} ${HOME}/.m2/repository
-mv ${M2_HOME}/wrapper ${HOME}/.m2/wrapper
