@@ -2,7 +2,7 @@
 
 mkdir -p ${HOME}/.m2
 
-export M2_LOCAL_REPO="${ROOT_FOLDER}/.m2"
+M2_LOCAL_REPO="${ROOT_FOLDER}/.m2"
 
 mkdir -p ${M2_LOCAL_REPO}
 

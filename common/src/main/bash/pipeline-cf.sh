@@ -372,7 +372,7 @@ function stageDeploy() {
     # Log in to PaaS to start deployment
     logInToPaas
 
-    deployServices
+    # deployServices
 
     downloadAppBinary ${REPO_WITH_BINARIES} ${projectGroupId} ${appName} ${PIPELINE_VERSION}
 
