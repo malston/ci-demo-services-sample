@@ -92,3 +92,12 @@ task currentVersion {
 		println project.version
 	}
 }
+
+task smoke(type: Test) {
+	description = "Task to run smoke tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+	jvmArgs = systemPropsFromGradle()
+//	include 'smoke/**'
+}
