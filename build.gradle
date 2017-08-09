@@ -98,6 +98,5 @@ task smoke(type: Test) {
 	testLogging {
 		exceptionFormat = 'full'
 	}
-	jvmArgs = systemPropsFromGradle()
 //	include 'smoke/**'
 }
