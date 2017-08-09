@@ -20,7 +20,7 @@ apply plugin: 'kotlin-jpa'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'maven-publish'
 
-version = '1.0.1-M1'
+version = getProp('newVersion') ?: '1.0.1-M1'
 group = 'com.pivotalservices.sample'
 sourceCompatibility = 1.8
 compileKotlin {
