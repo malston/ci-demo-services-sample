@@ -202,11 +202,11 @@ function deployAndRestartAppWithNameForSmokeTests() {
     deleteAppInstance "${appName}"
     echo "Deploying and restarting app with name [${appName}] and jar name [${jarName}] and env [${env}]"
     deployAppWithName "${appName}" "${jarName}" "${ENVIRONMENT}" 'false'
-    bindService "${rabbitName}" "${appName}"
-    if [[ "${eurekaName}" != "" ]]; then
-        bindService "${eurekaName}" "${appName}"
-    fi
-    bindService "${mysqlName}" "${appName}"
+    # bindService "${rabbitName}" "${appName}"
+    # if [[ "${eurekaName}" != "" ]]; then
+    #     bindService "${eurekaName}" "${appName}"
+    # fi
+    # bindService "${mysqlName}" "${appName}"
     setEnvVar "${lowerCaseAppName}" 'spring.profiles.active' "${profiles}"
     restartApp "${appName}"
 }
