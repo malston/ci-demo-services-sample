@@ -49,6 +49,25 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
+publishing {
+	repositories {
+		maven {
+			// REPO_WITH_JARS is deprecated
+			url getProp('REPO_WITH_JARS') ?: getProp('REPO_WITH_BINARIES') ?: 'http://localhost:8081/artifactory/libs-release-local'
+			credentials {
+				username getProp('M2_SETTINGS_REPO_USERNAME') ?: 'admin'
+				password getProp('M2_SETTINGS_REPO_PASSWORD') ?: 'password'
+			}
+		}
+	}
+	publications {
+		mavenJava(MavenPublication) {
+			artifactId project.name
+			from components.java
+		}
+	}
+}
+
 
 task groupId {
 	doLast {
