@@ -100,3 +100,12 @@ task smoke(type: Test) {
 	}
 //	include 'smoke/**'
 }
+
+task e2e(type: Test) {
+	description = "Task to run end to end tests"
+	testLogging {
+		exceptionFormat = 'full'
+	}
+//	jvmArgs = systemPropsFromGradle()
+//	include 'e2e/**'
+}
