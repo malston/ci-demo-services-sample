@@ -26,6 +26,7 @@ EOF
 echo "Settings xml written"
 
 export GRADLE_USER_HOME="${ROOT_FOLDER}/.gradle"
+mkdir -p ${GRADLE_USER_HOME}
 
 echo "Writing gradle.properties to [${GRADLE_USER_HOME}/gradle.properties]"
 
