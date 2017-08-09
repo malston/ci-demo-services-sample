@@ -20,3 +20,7 @@ run:
 params:
   GIT_EMAIL:
   GIT_NAME:
+
+caches:
+  - path: .gradle/
+  - path: .m2/

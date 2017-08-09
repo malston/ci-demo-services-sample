@@ -14,3 +14,7 @@ run:
   path: /bin/bash
   args:
     - repo/concourse/tasks/test-rollback-smoke.sh
+
+caches:
+  - path: .gradle/
+  - path: .m2/

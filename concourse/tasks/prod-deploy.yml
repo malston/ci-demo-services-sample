@@ -15,3 +15,7 @@ run:
   path: /bin/bash
   args:
     - repo/concourse/tasks/prod-deploy.sh
+    
+caches:
+  - path: .gradle/
+  - path: .m2/
