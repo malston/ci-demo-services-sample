@@ -20,4 +20,4 @@ caches:
   - path: .m2/
 
 params:
-  - PROJECT_TYPE
+  PROJECT_TYPE: 
