@@ -32,12 +32,17 @@ function isGradleProject() {
 # TODO: consider also a project descriptor file
 # that could override these values
 function projectType() {
-    if isMavenProject; then
-        echo "MAVEN"
-    elif isGradleProject; then
-        echo "GRADLE"
-    else
-        echo "UNKNOWN"
+    if [[ -z "${PROJECT_TYPE}" ]]; then
+        if isMavenProject; then
+            echo "MAVEN"
+        elif isGradleProject; then
+            echo "GRADLE"
+        else
+            echo "UNKNOWN"
+        fi
+        else
+            echo ${PROJECT_TYPE} 
+        fi
     fi
 }
 
