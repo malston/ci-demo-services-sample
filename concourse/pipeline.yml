@@ -86,40 +86,7 @@ jobs:
       <<: *common-params
       <<: *paas-test-params
 
-- name: test-rollback-deploy
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: repo
-    - get: version
-      resource: version
-      passed:
-      - test-smoke
-      trigger: true
-  - task: test-rollback-deploy
-    file: repo/concourse/tasks/test-rollback-deploy.yml
-    params:
-      <<: *common-params
-      <<: *paas-test-params
-      PAAS_HOSTNAME_UUID: ((paas-hostname-uuid))
 
-- name: test-rollback-smoke
-  serial: true
-  public: false
-  plan:
-  - aggregate:
-    - get: repo
-    - get: version
-      resource: version
-      passed:
-      - test-rollback-deploy
-      trigger: true
-  - task: test-rollback-smoke
-    file: repo/concourse/tasks/test-rollback-smoke.yml
-    params:
-      <<: *common-params
-      <<: *paas-test-params
 
 - name: stage-deploy
   serial: true
@@ -130,7 +97,7 @@ jobs:
     - get: version
       resource: version
       passed:
-      - test-rollback-smoke
+      - test-smoke
       trigger: false
   - task: stage-deploy
     file: repo/concourse/tasks/stage-deploy.yml

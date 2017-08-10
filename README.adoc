@@ -1,4 +1,4 @@
 == CI Demo service
 
-This project will serve as a test service to demonstrate a CI flow using Concourse and Jenkins
+A test service to demonstrate a CI flow using Concourse and Jenkins
 
