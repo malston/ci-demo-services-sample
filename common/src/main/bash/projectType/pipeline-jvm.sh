@@ -40,9 +40,8 @@ function projectType() {
         else
             echo "UNKNOWN"
         fi
-        else
-            echo ${PROJECT_TYPE} 
-        fi
+    else
+        echo ${PROJECT_TYPE} 
     fi
 }
 
