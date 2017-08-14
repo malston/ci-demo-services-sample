@@ -14,6 +14,17 @@ resources:
     branch: version
     private_key: ((github-private-key))
 
+- name: tools
+  type: git
+  source:
+    uri: ((tools-scripts-url))
+    branch: ((tools-branch))
+
+- name: m2
+  type: docker-image
+  source:
+    repository: springcloud/spring-pipeline-m2
+
 jobs:
 - name: generate-version
   public: true
@@ -35,15 +46,18 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: tools
     - get: repo
+    - get: m2
     - get: version
       resource: version
       passed:
       - generate-version
       trigger: true
   - task: build-and-upload
-    file: repo/concourse/tasks/build-and-upload.yml
+    file: tools/tasks/build-and-upload/task.yml
     params:
+      M2_REPO: ((maven-local-dir))
       <<: *common-params
   - put: repo
     params:
@@ -174,7 +188,7 @@ common-params: &common-params
   M2_SETTINGS_REPO_USERNAME: ((m2-settings-repo-username))
   PAAS_TYPE: ((paas-type))
   REPO_WITH_BINARIES: ((repo-with-binaries))
-  PROJECT_TYPE: ((project-type))
+  # PROJECT_TYPE: ((project-type))
 
 paas-prod-params: &paas-prod-params
   PAAS_PROD_API_URL: ((paas-prod-api-url))
