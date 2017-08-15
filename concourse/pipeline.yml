@@ -30,10 +30,10 @@ jobs:
   public: true
   plan:
   - aggregate:
+    - get: tools
     - get: version
-    - get: repo
   - task: generate-version
-    file: repo/concourse/tasks/generate-version.yml
+    file: tools/tasks/generate-version/task.yml
     params:
       GIT_EMAIL: ((git-email))
       GIT_NAME: ((git-name))
@@ -122,7 +122,7 @@ jobs:
       <<: *common-params
       <<: *paas-test-params
 
-- name: stage-deploy
+- name: test-rollback-deploy
   serial: true
   public: false
   plan:
@@ -134,6 +134,45 @@ jobs:
       resource: version
       passed:
       - test-smoke
+      trigger: true
+  - task: test-rollback-deploy
+    file: tools/tasks/test-rollback-deploy/task.yml
+    params:
+      <<: *common-params
+      <<: *paas-test-params
+      PAAS_HOSTNAME_UUID: ((paas-hostname-uuid))
+
+- name: test-rollback-smoke
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: tools
+    - get: repo
+    - get: m2
+    - get: version
+      resource: version
+      passed:
+      - test-rollback-deploy
+      trigger: true
+  - task: test-rollback-smoke
+    file: tools/tasks/test-rollback-smoke/task.yml
+    params:
+      <<: *common-params
+      <<: *paas-test-params
+
+- name: stage-deploy
+  serial: true
+  public: false
+  plan:
+  - aggregate:
+    - get: tools
+    - get: repo
+    - get: m2
+    - get: version
+      resource: version
+      passed:
+      - test-rollback-smoke
       trigger: false
   - task: stage-deploy
     file: tools/tasks/stage-deploy/task.yml
