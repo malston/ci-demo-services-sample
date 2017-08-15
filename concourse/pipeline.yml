@@ -127,14 +127,16 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: tools
     - get: repo
+    - get: m2
     - get: version
       resource: version
       passed:
       - test-smoke
       trigger: false
   - task: stage-deploy
-    file: repo/concourse/tasks/stage-deploy.yml
+    file: tools/tasks/stage-deploy/task.yml
     params:
       <<: *common-params
       <<: *paas-stage-params
@@ -145,14 +147,16 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: tools
     - get: repo
+    - get: m2
     - get: version
       resource: version
       passed:
       - stage-deploy
       trigger: false
-  - task: stage-smoke
-    file: repo/concourse/tasks/stage-e2e.yml
+  - task: stage-e2e
+    file: tools/tasks/stage-e2e/task.yml
     params:
       <<: *common-params
       <<: *paas-stage-params
@@ -162,14 +166,16 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: tools
     - get: repo
+    - get: m2
     - get: version
       resource: version
       passed:
       - stage-e2e
       trigger: false
   - task: prod-deploy
-    file: repo/concourse/tasks/prod-deploy.yml
+    file: tools/tasks/prod-deploy/task.yml
     params:
       <<: *common-params
       <<: *paas-prod-params
@@ -185,14 +191,16 @@ jobs:
   public: false
   plan:
   - aggregate:
+    - get: tools
     - get: repo
+    - get: m2
     - get: version
       resource: version
       passed:
       - prod-deploy
       trigger: false
   - task: prod-complete
-    file: repo/concourse/tasks/prod-complete.yml
+    file: tools/tasks/prod-complete/task.yml
     params:
       <<: *common-params
       <<: *paas-prod-params
