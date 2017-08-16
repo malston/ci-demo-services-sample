@@ -59,6 +59,10 @@ jobs:
     params:
       M2_REPO: ((maven-local-dir))
       <<: *common-params
+  - task: create-dev-tag
+    file: tools/tasks/tag-repo/task.yml
+    params:
+      TAG_PREFIX: dev
   - put: repo
     params:
       repository: out
@@ -219,6 +223,10 @@ jobs:
       <<: *common-params
       <<: *paas-prod-params
       PAAS_HOSTNAME_UUID: ((paas-hostname-uuid))
+  - task: create-prod-tag
+    file: tools/tasks/tag-repo/task.yml
+    params:
+      TAG_PREFIX: prod
   - put: repo
     params:
       repository: out
